@@ -25,7 +25,7 @@ const SensorChart: React.FC<Props> = ({equipmentId}) => {
                 const res = await getSensorHistory(equipmentId, from);
                 const points: ChartDataPoint[] = res.data.data.reverse().map(d => {
                     const point: ChartDataPoint = {
-                        time: new Date(d.timestamp).toISOString()
+                        time: new Date(d.timestamp).toLocaleTimeString()
                     };
                     d.readings.forEach(r => {
                         if (r.type === 'temperature') point.temperature = parseFloat(r.value.toFixed(1));
@@ -45,8 +45,8 @@ const SensorChart: React.FC<Props> = ({equipmentId}) => {
     }, [equipmentId]);
 
     return (
-        <div className = "bg-white rounded-1g p-4 shadow-sm">
-            <h2 className = "text-1g font-semibold text-gray-700 mb-4">
+        <div className = "bg-white rounded-lg p-4 shadow-sm">
+            <h2 className = "text-lg font-semibold text-gray-700 mb-4">
                 {equipmentId} - Real-time Sensor Data (last 60s)
             </h2>
             <ResponsiveContainer width = "100%" height = {300}>
@@ -56,8 +56,8 @@ const SensorChart: React.FC<Props> = ({equipmentId}) => {
                     <YAxis tick={{fontSize: 11}} />
                     <Tooltip />
                     <Legend />
-                    <Line type = "monotone" dataKey="temperature" stroke="#ef4444" dot={false} name="Temp (°C)" strokeWidth={2} />
-                    <Line type = "monotone" dataKey="pressure" stroke="#3b82f6" dot={false} name="Pressure (bar)" strokeWidth={2} />
+                    <Line type = "monotone" dataKey="temperature" stroke="#ef4444" dot={false} name="Temp (°C)" strokeWidth={2} isAnimationActive = {false} />
+                    <Line type = "monotone" dataKey="pressure" stroke="#3b82f6" dot={false} name="Pressure (bar)" strokeWidth={2} isAnimationActive = {false}/>
                 </LineChart>
             </ResponsiveContainer>
         </div>
