@@ -48,7 +48,10 @@ const App: React.FC = () => {
         {loading ? (<p className = "text-gray-500">Loading equipment...</p>) : (
           <div className = "grid grid-cols-1 sm:grid-cols-2 1g:grid-cols-3 gap-4">
             {equipmentList && equipmentList.map(eq => (
-              <EquipmentCard key = {eq.equipmentId} equipment = {eq} isSelected = {selectedId === eq.equipmentId} onClick={()=>setSelectedId(eq.equipmentId)}/>
+              <EquipmentCard key = {eq.equipmentId}
+              equipmentId = {eq.equipmentId} name = {eq.name} location = {eq.location} status = {eq.status}
+              isSelected = {selectedId === eq.equipmentId}
+              onClick={setSelectedId}/>
             ))}
           </div>
         )}
