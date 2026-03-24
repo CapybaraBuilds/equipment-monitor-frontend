@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import type {Equipment, EquipmentStatus} from '../types';
 
 interface Props {
@@ -31,4 +31,4 @@ const EquipmentCard: React.FC<Props> = ({equipment, isSelected, onClick}) => {
     );
 };
 
-export default EquipmentCard;
+export default memo(EquipmentCard);

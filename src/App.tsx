@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import EquipmentCard from './components/EquipmentCard';
 import SensorChart from './components/SensorChart';
 import useFetch from './hooks/useFetch';
