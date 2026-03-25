@@ -6,6 +6,7 @@ import type {Equipment} from './types';
 import { useEquipment } from './context/EquipmentContext';
 import AlertBadge from './components/AlertBadge';
 import MaintenancePanel from './components/MaintenancePanel';
+import RiskPanel from './components/RiskPanel';
 // import { getEquipmentList, getLatestSensorData, getSensorHistory } from './api/client';
 
 const App: React.FC = () => {
@@ -62,6 +63,9 @@ const App: React.FC = () => {
         )}
         <div className="bg-white rounded-lg p-4 shadow-sm mt-6"> 
           <AlertBadge />
+        </div>
+        <div className="bg-white rounded-lg p-4 shadow-sm mt-6">
+          <RiskPanel />
         </div>
         <div className="bg-white rounded-lg p-4 shadow-sm mt-6"> 
           <MaintenancePanel />
