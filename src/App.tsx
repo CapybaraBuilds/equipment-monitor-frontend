@@ -44,33 +44,38 @@ const App: React.FC = () => {
     <div className = "min-h-screen bg-gray-100">
       <header className = "bg-gray-900 text-white px-6 py-4">
         <h1 className = "text-xl font-bold">Industrial Equipment Monitor</h1>
+        <span className="text-sm text-green-400 flex items-center gap-2">
+          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+          Live · {equipmentList?.length ?? 0} devices
+        </span>
       </header>
-      <main className = "p-6">
-        {loading ? (<p className = "text-gray-500">Loading equipment...</p>) : (
-          <div className = "grid grid-cols-1 sm:grid-cols-2 1g:grid-cols-3 gap-4">
-            {equipmentList && equipmentList.map(eq => (
+
+      <div className="flex h-[calc(100vh-60px)]">
+        {/* Left sidebar: device list (fixed width, scrollable) */}
+        <aside className="w-72 bg-white border-r border-gray-200 overflow-y-auto p-4 space-y-3 flex-shrink-0">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+            Equipment ({equipmentList?.length ?? 0})
+          </h2>
+          {equipmentList?.map(eq => (
               <EquipmentCard key = {eq.equipmentId}
               equipmentId = {eq.equipmentId} name = {eq.name} location = {eq.location} status = {eq.status}
               isSelected = {selectedId === eq.equipmentId}
               onClick={setSelectedId}/>
             ))}
+        </aside>
+
+        {/* Right sidebar: main content area (scrollable) */}
+        <main className="flex-1 overflow-y-auto p-6 space-y-6">
+          {/* Top: Real-time sensor chart */}
+          {selectedId && <SensorChart equipmentId={selectedId} />}
+          {/* Bottom: three-column grid - alerts, maintenance, rist assessment */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <AlertBadge />
+            <MaintenancePanel />
+            <RiskPanel />
           </div>
-        )}
-        {selectedId && (
-          <div className = "mt-6">
-            <SensorChart equipmentId={selectedId} />
-          </div>
-        )}
-        <div className="bg-white rounded-lg p-4 shadow-sm mt-6"> 
-          <AlertBadge />
-        </div>
-        <div className="bg-white rounded-lg p-4 shadow-sm mt-6">
-          <RiskPanel />
-        </div>
-        <div className="bg-white rounded-lg p-4 shadow-sm mt-6"> 
-          <MaintenancePanel />
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
