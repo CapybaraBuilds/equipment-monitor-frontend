@@ -40,6 +40,7 @@ const RiskPanel: React.FC = () => {
                                     {assessment.riskLevel}
                                 </span>
                             </div>
+                            {/* risk assessment progress bar */}
                             <div className="w-full bg-gray-100 rounded-full h-1.5">
                                 <div className ={`h-1.5 rounded-full transition-all duration-500 ${style.bar}`} style={{width: `${assessment.riskScore}%`}} />
                             </div>

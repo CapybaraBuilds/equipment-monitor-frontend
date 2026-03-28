@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, Suspense } from 'react'
 import EquipmentCard from './components/EquipmentCard';
-import SensorChart from './components/SensorChart';
-import useFetch from './hooks/useFetch';
-import type {Equipment} from './types';
+// import useFetch from './hooks/useFetch';
+// import type {Equipment} from './types';
 import { useEquipment } from './context/EquipmentContext';
 import AlertBadge from './components/AlertBadge';
 import MaintenancePanel from './components/MaintenancePanel';
 import RiskPanel from './components/RiskPanel';
 // import { getEquipmentList, getLatestSensorData, getSensorHistory } from './api/client';
+const SensorChart = React.lazy(() => import('./components/SensorChart'));
 
 const App: React.FC = () => {
   // const [equipmentList, setEquipmentList] = useState<Equipment[]>([]);
   // const [selectedId, setSelectedId] = useState<string | null>(null);
 
   // const {data: equipmentList, loading, error} = useFetch<Equipment[]>('/api/equipment', 5000);
-  const {equipmentList, selectedId, setSelectedId, loading, error} = useEquipment();
+  const {equipmentList, selectedId, setSelectedId, loading} = useEquipment();
   // const [loading, setLoading] = useState(true);
 
   // useEffect(() => {
@@ -39,6 +39,12 @@ const App: React.FC = () => {
       setSelectedId(equipmentList[0].equipmentId);
     }
   }, [equipmentList, selectedId]);
+
+  if (loading) return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <p className="text-gray-500">Loading equipment data...</p>
+    </div>
+  )
 
   return (
     <div className = "min-h-screen bg-gray-100">
@@ -67,7 +73,13 @@ const App: React.FC = () => {
         {/* Right sidebar: main content area (scrollable) */}
         <main className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Top: Real-time sensor chart */}
-          {selectedId && <SensorChart equipmentId={selectedId} />}
+          <Suspense fallback = {
+            <div className = "bg-white rounded-lg p-8 text-center text-gray-400 animate-pulse">
+              Loading chart...
+            </div>
+          }>
+            {selectedId && <SensorChart equipmentId={selectedId} />}
+          </Suspense>
           {/* Bottom: three-column grid - alerts, maintenance, rist assessment */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <AlertBadge />
