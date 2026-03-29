@@ -11,7 +11,7 @@ interface MaintenanceRecord {
 }
 
 const MaintenancePanel: React.FC = () => {
-    const {data: records, loading} = useFetch<MaintenanceRecord[]>('/api/maintenance/upcoming?days=7', 3000);
+    const {data: records, loading} = useFetch<MaintenanceRecord[]>('/api/maintenance/upcoming?days=7', 30000);
 
     if (loading) return <div className="text-gray-400 text-sm">Loading maintenance schedule...</div>;
 
