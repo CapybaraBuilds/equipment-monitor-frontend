@@ -15,6 +15,18 @@ export default defineConfig({
       brotliSize: true, // show brotli-compressed size (smaller then gzip)
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-recharts': ['recharts'],
+          'vendor-axios': ['axios'],
+        },
+      }
+    },
+    chunkSizeWarningLimit: 500,
+  },
   server: {
     port: 5173,
     proxy: {
